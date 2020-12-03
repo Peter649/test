@@ -16,8 +16,62 @@
 using namespace cv;
 
 void *display(void *);
+void serchigcam();
 
 int capDev = 0;
+
+
+void serchingcam(){
+
+std::cout << "se" << std::endl;
+
+int flag[3] = {0, };
+int sum = 0;
+
+if(access("/dev/video0", 00) == 0){
+	flag[0] = 1;
+	std::cout << "detected CAM0" << std::endl;
+	
+}
+
+if(access("/dev/video1", 00) == 0){
+	flag[1] = 1;
+	std::cout << "detected CAM1" << std::endl;
+}
+	
+if(access("/dev/video2", 00) == 0){
+	flag[2] = 1;
+	std::cout << "detected CAM2" << std::endl;
+}
+
+
+for(int i = 0; i <= 2; i++){
+	if(flag[i] != 0){
+	std::cout << "two detected CAM" << i << std::endl;
+	sum = sum + flag[i];
+	}
+}
+
+std::cout << sum << std::endl;
+
+if(sum == 0){
+	std::cout << "don't have cam exit progarm" << std::endl;
+	exit(1);
+}
+
+while(1){
+std::cout << "select cam : ";
+std::cin >> capDev;
+
+if(flag[capDev] == 1) break; 
+std::cout << "cam is no" << std::endl;
+}
+
+
+	
+
+}
+
 
 VideoCapture cap(capDev,CAP_V4L); // open the default camera
     
@@ -28,6 +82,7 @@ VideoCapture cap(capDev,CAP_V4L); // open the default camera
 int main(int argc, char** argv)
 {   
 
+serchingcam();
     //--------------------------------------------------------
     //networking stuff: socket, bind, listen
     //--------------------------------------------------------
